@@ -64,10 +64,10 @@ def Evaluate_CNN_Model(model, modelName, optimizer=optimizers.RMSprop(lr=0.0001)
     print("[INFO]:Train Accuracy:{:.3f}".format(train_scores[1]))
     print("[INFO]:Validation Accuracy:{:.3f}".format(test_scores[1]))
     
-    show_model_history(history, modelName)
+    Show_Model_History(history, modelName)
     return model
 
-def show_model_history(modelHistory, modelName):
+def Show_Model_History(modelHistory, modelName):
     history=pd.DataFrame()
     history["Train Loss"]=modelHistory.history['loss']
     history["Validation Loss"]=modelHistory.history['val_loss']
@@ -82,19 +82,27 @@ def show_model_history(modelHistory, modelName):
     plt.suptitle(" Convulutional Model {} Loss and Accuracy in Train and Validation Datasets".format(modelName))
     plt.show()
 
-def build_conv_model(filters):
+def Build_Conv_Model(filters):
     model = Sequential()
     model.add(layers.Convolution2D(filters, (3, 3), activation='relu', padding="same", input_shape=(64, 64, 1)))
     model.add(layers.MaxPooling2D((2, 2)))
        
     model.add(layers.Convolution2D((filters*2), (3, 3), activation='relu', padding="same"))
     model.add(layers.MaxPooling2D((2, 2)))
+    
+    model.add(layers.Convolution2D((filters*2), (3, 3), activation='relu', padding="same"))
+    model.add(layers.MaxPooling2D((2, 2)))
+    
+    model.add(layers.Convolution2D((filters*4), (3, 3), activation='relu', padding="same"))
+    model.add(layers.MaxPooling2D((2, 2)))
+    
         
     model.add(layers.Flatten())
+    
     model.add(layers.Dense(128, activation='relu'))
     model.add(layers.Dense(10, activation='softmax'))
       
     return model
 
-model=build_conv_model(16)
+model=Build_Conv_Model(32)
 trained_model_1=Evaluate_CNN_Model(model=model, modelName=1)
