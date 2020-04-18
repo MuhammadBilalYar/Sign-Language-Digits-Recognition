@@ -82,18 +82,18 @@ def Show_Model_History(modelHistory, modelName):
     plt.suptitle(" Convulutional Model {} Loss and Accuracy in Train and Validation Datasets".format(modelName))
     plt.show()
 
-def Build_Conv_Model(filters):
+def Build_Conv_Model(filters,filterSize):
     model = Sequential()
-    model.add(layers.Convolution2D(filters, (3, 3), activation='relu', padding="same", input_shape=(64, 64, 1)))
+    model.add(layers.Convolution2D(filters, filterSize, activation='relu', padding="same", input_shape=(64, 64, 1)))
     model.add(layers.MaxPooling2D((2, 2)))
        
-    model.add(layers.Convolution2D((filters*2), (3, 3), activation='relu', padding="same"))
+    model.add(layers.Convolution2D((filters*2), filterSize, activation='relu', padding="same"))
     model.add(layers.MaxPooling2D((2, 2)))
     
-    model.add(layers.Convolution2D((filters*2), (3, 3), activation='relu', padding="same"))
+    model.add(layers.Convolution2D((filters*2), filterSize, activation='relu', padding="same"))
     model.add(layers.MaxPooling2D((2, 2)))
     
-    model.add(layers.Convolution2D((filters*4), (3, 3), activation='relu', padding="same"))
+    model.add(layers.Convolution2D((filters*4), filterSize, activation='relu', padding="same"))
     model.add(layers.MaxPooling2D((2, 2)))
     
         
@@ -104,5 +104,25 @@ def Build_Conv_Model(filters):
       
     return model
 
-model=Build_Conv_Model(32)
+print("=========================================================")
+print("\t Experiment with fiter size of 3 * 3")
+print("=========================================================")
+filters = 32
+filterSize = (3,3)
+model=Build_Conv_Model(filters,filterSize)
 trained_model_1=Evaluate_CNN_Model(model=model, modelName=1)
+
+print("=========================================================")
+print("\t Experiment with fiter size of 5 * 5")
+print("=========================================================")
+filters = 32
+filterSize = (5,5)
+model=Build_Conv_Model(filters,filterSize)
+trained_model_1=Evaluate_CNN_Model(model=model, modelName=2)
+
+print("=========================================================")
+print("\t Experiment with fiter size of 7 * 7")
+print("=========================================================")
+filterSize = (7,7)
+model=Build_Conv_Model(filters,filterSize)
+trained_model_1=Evaluate_CNN_Model(model=model, modelName=3)
