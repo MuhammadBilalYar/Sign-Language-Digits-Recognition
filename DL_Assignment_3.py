@@ -56,31 +56,45 @@ def Evaluate_CNN_Model(model, modelName, optimizer=optimizers.RMSprop(lr=0.0001)
     earlyStopping = EarlyStopping(monitor = 'val_loss', patience=20, verbose = 1) 
     if callbacks is None:
         callbacks = [earlyStopping]
-
+    history=model.fit(X_train, Y_train, validation_data=(X_test, Y_test), callbacks=callbacks,epochs=epochs, verbose=0)
     print("[INFO]:Convolutional Model {} trained....".format(modelName))
 
     test_scores=model.evaluate(X_test, Y_test, verbose=0)
     train_scores=model.evaluate(X_train, Y_train, verbose=0)
     print("[INFO]:Train Accuracy:{:.3f}".format(train_scores[1]))
     print("[INFO]:Validation Accuracy:{:.3f}".format(test_scores[1]))
-
+    
+    show_model_history(history, modelName)
     return model
 
+def show_model_history(modelHistory, modelName):
+    history=pd.DataFrame()
+    history["Train Loss"]=modelHistory.history['loss']
+    history["Validation Loss"]=modelHistory.history['val_loss']
+    history["Train Accuracy"]=modelHistory.history['accuracy']
+    history["Validation Accuracy"]=modelHistory.history['val_accuracy']
+    
+    fig, axarr=plt.subplots(nrows=2, ncols=1 ,figsize=(12,8))
+    axarr[0].set_title("History of Loss in Train and Validation Datasets")
+    history[["Train Loss", "Validation Loss"]].plot(ax=axarr[0])
+    axarr[1].set_title("History of Accuracy in Train and Validation Datasets")
+    history[["Train Accuracy", "Validation Accuracy"]].plot(ax=axarr[1]) 
+    plt.suptitle(" Convulutional Model {} Loss and Accuracy in Train and Validation Datasets".format(modelName))
+    plt.show()
 
-def build_conv_model_1():
-    model=Sequential()
-    
-    model.add(layers.Conv2D(64, kernel_size=(3,3),
-                           padding="same",
-                           activation="relu", 
-                           input_shape=(64, 64,1)))
-    model.add(layers.MaxPooling2D((2,2)))
-    
-    model.add(layers.Flatten())
-    model.add(layers.Dense(128, activation="relu"))
-    model.add(layers.Dense(number_of_classes, activation="softmax"))
+def build_conv_model(filters):
+    model = Sequential()
+    model.add(layers.Convolution2D(filters, (3, 3), activation='relu', padding="same", input_shape=(64, 64, 1)))
+    model.add(layers.MaxPooling2D((2, 2)))
+       
+    model.add(layers.Convolution2D((filters*2), (3, 3), activation='relu', padding="same"))
+    model.add(layers.MaxPooling2D((2, 2)))
         
+    model.add(layers.Flatten())
+    model.add(layers.Dense(128, activation='relu'))
+    model.add(layers.Dense(10, activation='softmax'))
+      
     return model
 
-model=build_conv_model_1()
+model=build_conv_model(16)
 trained_model_1=Evaluate_CNN_Model(model=model, modelName=1)
