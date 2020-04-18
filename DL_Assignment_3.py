@@ -100,29 +100,17 @@ def Build_Conv_Model(filters,filterSize):
     model.add(layers.Flatten())
     
     model.add(layers.Dense(128, activation='relu'))
+    model.add(layers.Dense(64, activation='relu'))
+    model.add(layers.Dense(32, activation='relu'))
+    model.add(layers.Dense(16, activation='relu'))
     model.add(layers.Dense(10, activation='softmax'))
       
     return model
 
 print("=========================================================")
-print("\t Experiment with fiter size of 3 * 3")
+print("\t Experiment with FC 5 Layers")
 print("=========================================================")
 filters = 32
 filterSize = (3,3)
 model=Build_Conv_Model(filters,filterSize)
 trained_model_1=Evaluate_CNN_Model(model=model, modelName=1)
-
-print("=========================================================")
-print("\t Experiment with fiter size of 5 * 5")
-print("=========================================================")
-filters = 32
-filterSize = (5,5)
-model=Build_Conv_Model(filters,filterSize)
-trained_model_1=Evaluate_CNN_Model(model=model, modelName=2)
-
-print("=========================================================")
-print("\t Experiment with fiter size of 7 * 7")
-print("=========================================================")
-filterSize = (7,7)
-model=Build_Conv_Model(filters,filterSize)
-trained_model_1=Evaluate_CNN_Model(model=model, modelName=3)
