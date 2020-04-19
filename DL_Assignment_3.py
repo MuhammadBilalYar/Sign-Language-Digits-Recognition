@@ -101,15 +101,13 @@ def Build_Conv_Model(filters,filterSize):
     
     model.add(layers.Dense(128, activation='relu'))
     model.add(layers.Dense(64, activation='relu'))
-    model.add(layers.Dense(32, activation='relu'))
-    model.add(layers.Dense(16, activation='relu'))
     model.add(layers.Dense(10, activation='softmax'))
       
     return model
 
-print("=========================================================")
-print("\t Experiment with FC 5 Layers")
-print("=========================================================")
+print("================================================================")
+print("Final Model with Conv 4 and 3 FC layers and 3 * 3 filter size")
+print("================================================================")
 filters = 32
 filterSize = (3,3)
 model=Build_Conv_Model(filters,filterSize)
