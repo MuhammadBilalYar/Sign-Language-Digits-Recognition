@@ -38,13 +38,8 @@ print(Y.shape)
 
 
 # Train Test split
-test_size = 0.20
 number_of_classes=10
 epochs=100
-
-X_conv=X.reshape(X.shape[0], X.shape[1], X.shape[2],1)
-X_train, X_test, Y_train, Y_test = train_test_split(X_conv, Y, stratify=Y, test_size=test_size, random_state=42)
-
 # 
 def Evaluate_CNN_Model(model, modelName, optimizer=optimizers.RMSprop(lr=0.0001), callbacks=None):
     print("[INFO]:Convolutional Model {} created...".format(modelName))    
@@ -105,10 +100,46 @@ def Build_Conv_Model(filters,filterSize):
       
     return model
 
-print("================================================================")
-print("Final Model with Conv 4 and 3 FC layers and 3 * 3 filter size")
-print("================================================================")
 filters = 32
 filterSize = (3,3)
+print("================================================================")
+print("Model of 7 layers (Conv 4 and 3 FC) - Training Data 80%")
+print("================================================================")
+test_size = 0.20
+X_conv=X.reshape(X.shape[0], X.shape[1], X.shape[2],1)
+X_train, X_test, Y_train, Y_test = train_test_split(X_conv, Y, stratify=Y, test_size=test_size, random_state=42)
+print(X_train.shape)
+
+model=Build_Conv_Model(filters,filterSize)
+trained_model_1=Evaluate_CNN_Model(model=model, modelName=1)
+
+print("================================================================")
+print("Model of 7 layers (Conv 4 and 3 FC) - Training Data 70%")
+print("================================================================")
+test_size = 0.30
+X_conv=X.reshape(X.shape[0], X.shape[1], X.shape[2],1)
+X_train, X_test, Y_train, Y_test = train_test_split(X_conv, Y, stratify=Y, test_size=test_size, random_state=42)
+print(X_train.shape)
+
+model=Build_Conv_Model(filters,filterSize)
+trained_model_1=Evaluate_CNN_Model(model=model, modelName=1)
+print("================================================================")
+print("Model of 7 layers (Conv 4 and 3 FC) - Training Data 60%")
+print("================================================================")
+test_size = 0.40
+X_conv=X.reshape(X.shape[0], X.shape[1], X.shape[2],1)
+X_train, X_test, Y_train, Y_test = train_test_split(X_conv, Y, stratify=Y, test_size=test_size, random_state=42)
+print(X_train.shape)
+
+model=Build_Conv_Model(filters,filterSize)
+trained_model_1=Evaluate_CNN_Model(model=model, modelName=1)
+print("================================================================")
+print("Model of 7 layers (Conv 4 and 3 FC) - Training Data 50%")
+print("================================================================")
+test_size = 0.50
+X_conv=X.reshape(X.shape[0], X.shape[1], X.shape[2],1)
+X_train, X_test, Y_train, Y_test = train_test_split(X_conv, Y, stratify=Y, test_size=test_size, random_state=42)
+print(X_train.shape)
+
 model=Build_Conv_Model(filters,filterSize)
 trained_model_1=Evaluate_CNN_Model(model=model, modelName=1)
