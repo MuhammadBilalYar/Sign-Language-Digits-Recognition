@@ -23,18 +23,18 @@ print(X.shape)
 Y = np.load("Y.npy")
 print(Y.shape)
 
-#sample_image = X[0,:,:]
-#plt.subplot(221)
-#plt.imshow(sample_image, cmap="gray")
-#sample_image = X[500,:,:]
-#plt.subplot(222)
-#plt.imshow(sample_image, cmap="gray")
-#sample_image = X[1000,:,:]
-#plt.subplot(223)
-#plt.imshow(sample_image, cmap="gray")
-#sample_image = X[2000,:,:]
-#plt.subplot(224)
-#plt.imshow(sample_image, cmap="gray")
+sample_image = X[0,:,:]
+plt.subplot(221)
+plt.imshow(sample_image, cmap="gray")
+sample_image = X[500,:,:]
+plt.subplot(222)
+plt.imshow(sample_image, cmap="gray")
+sample_image = X[1000,:,:]
+plt.subplot(223)
+plt.imshow(sample_image, cmap="gray")
+sample_image = X[2000,:,:]
+plt.subplot(224)
+plt.imshow(sample_image, cmap="gray")
 
 
 # Train Test split
@@ -81,15 +81,19 @@ def Build_Conv_Model(filters,filterSize):
     model = Sequential()
     model.add(layers.Convolution2D(filters, filterSize, activation='relu', padding="same", input_shape=(64, 64, 1)))
     model.add(layers.MaxPooling2D((2, 2)))
+    model.add(layers.Dropout(0.25))
        
     model.add(layers.Convolution2D((filters*2), filterSize, activation='relu', padding="same"))
     model.add(layers.MaxPooling2D((2, 2)))
+    model.add(layers.Dropout(0.25))
     
     model.add(layers.Convolution2D((filters*2), filterSize, activation='relu', padding="same"))
     model.add(layers.MaxPooling2D((2, 2)))
+    model.add(layers.Dropout(0.25))
     
     model.add(layers.Convolution2D((filters*4), filterSize, activation='relu', padding="same"))
     model.add(layers.MaxPooling2D((2, 2)))
+    model.add(layers.Dropout(0.25))
     
         
     model.add(layers.Flatten())
@@ -106,37 +110,6 @@ print("================================================================")
 print("Model of 7 layers (Conv 4 and 3 FC) - Training Data 80%")
 print("================================================================")
 test_size = 0.20
-X_conv=X.reshape(X.shape[0], X.shape[1], X.shape[2],1)
-X_train, X_test, Y_train, Y_test = train_test_split(X_conv, Y, stratify=Y, test_size=test_size, random_state=42)
-print(X_train.shape)
-
-model=Build_Conv_Model(filters,filterSize)
-trained_model_1=Evaluate_CNN_Model(model=model, modelName=1)
-
-print("================================================================")
-print("Model of 7 layers (Conv 4 and 3 FC) - Training Data 70%")
-print("================================================================")
-test_size = 0.30
-X_conv=X.reshape(X.shape[0], X.shape[1], X.shape[2],1)
-X_train, X_test, Y_train, Y_test = train_test_split(X_conv, Y, stratify=Y, test_size=test_size, random_state=42)
-print(X_train.shape)
-
-model=Build_Conv_Model(filters,filterSize)
-trained_model_1=Evaluate_CNN_Model(model=model, modelName=1)
-print("================================================================")
-print("Model of 7 layers (Conv 4 and 3 FC) - Training Data 60%")
-print("================================================================")
-test_size = 0.40
-X_conv=X.reshape(X.shape[0], X.shape[1], X.shape[2],1)
-X_train, X_test, Y_train, Y_test = train_test_split(X_conv, Y, stratify=Y, test_size=test_size, random_state=42)
-print(X_train.shape)
-
-model=Build_Conv_Model(filters,filterSize)
-trained_model_1=Evaluate_CNN_Model(model=model, modelName=1)
-print("================================================================")
-print("Model of 7 layers (Conv 4 and 3 FC) - Training Data 50%")
-print("================================================================")
-test_size = 0.50
 X_conv=X.reshape(X.shape[0], X.shape[1], X.shape[2],1)
 X_train, X_test, Y_train, Y_test = train_test_split(X_conv, Y, stratify=Y, test_size=test_size, random_state=42)
 print(X_train.shape)
